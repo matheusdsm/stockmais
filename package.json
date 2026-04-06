@@ -1,0 +1,47 @@
+{
+  "name": "stockmais",
+  "version": "1.0.0",
+  "description": "Sistema de Controle de Estoque",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node src/backend/server.js",
+    "client": "vite --config vite.config.js",
+    "build": "npm run build:client && npm run build:start",
+    "build:client": "vite build --config vite.config.js",
+    "build:start": "echo Build completo! Execute 'npm run start' para iniciar o servidor.",
+    "start": "node src/backend/server.js",
+    "preview": "vite preview",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:seed": "node prisma/seed.js",
+    "vercel:dev": "vercel dev"
+  },
+  "keywords": [
+    "estoque",
+    "controle",
+    "inventory"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.0.0",
+    "@prisma/client": "^7.0.0",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.1",
+    "express": "^4.18.2",
+    "pg": "^8.11.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.3",
+    "sql.js": "^1.10.3",
+    "styled-components": "^6.1.8"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "concurrently": "^8.2.2",
+    "prisma": "^7.0.0",
+    "vite": "^5.1.4"
+  }
+}

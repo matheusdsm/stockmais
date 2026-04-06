@@ -1,0 +1,20 @@
+{
+  "buildCommand": "npm run build:client",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "installCommand": "npm install",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/auth/(.*)", "destination": "/api/auth/$1" },
+    { "source": "/auth", "destination": "/api/auth/login" },
+    { "source": "/dashboard", "destination": "/api/dashboard" },
+    { "source": "/produtos/(.*)", "destination": "/api/produtos/$1" },
+    { "source": "/produtos", "destination": "/api/produtos" },
+    { "source": "/usuarios/(.*)", "destination": "/api/usuarios/$1" },
+    { "source": "/usuarios", "destination": "/api/usuarios" },
+    { "source": "/movimentacoes/(.*)", "destination": "/api/movimentacoes/$1" },
+    { "source": "/movimentacoes", "destination": "/api/movimentacoes" },
+    { "source": "/logs/(.*)", "destination": "/api/logs/$1" },
+    { "source": "/logs", "destination": "/api/logs" }
+  ]
+}

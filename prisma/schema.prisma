@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Usuario {
+  id           Int        @id @default(autoincrement())
+  username     String     @unique
+  passwordHash String     @map("password_hash")
+  role         Role
+  nomeCompleto String     @map("nome_completo")
+  ativo        Boolean    @default(true)
+  createdAt    DateTime   @default(now()) @map("created_at")
+  excluidoPor  Int?       @map("excluido_por")
+
+  usuarioExcluidoPor   Usuario?        @relation("UsuarioExcluido", fields: [excluidoPor], references: [id])
+  usuariosExcluidos    Usuario[]       @relation("UsuarioExcluido")
+
+  produtos               Produto[]
+  produtosExcluidos     Produto[]       @relation("ProdutoExcluido")
+  movimentacoes         Movimentacao[]
+  logs                  Log[]
+
+  @@map("usuarios")
+}
+
+model Produto {
+  id            Int       @id @default(autoincrement())
+  sku           String    @unique
+  nome          String
+  descricao     String?
+  quantidade    Int       @default(0)
+  precoUnitario Float     @default(0) @map("preco_unitario")
+  localizacao   String?
+  categoria     String?
+  deleted       Boolean   @default(false)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  usuarioId     Int?      @map("usuario_id")
+  excluidoPor   Int?      @map("excluido_por")
+
+  usuario          Usuario?        @relation(fields: [usuarioId], references: [id])
+  excluidoPorUsuario Usuario?      @relation("ProdutoExcluido", fields: [excluidoPor], references: [id])
+  movimentacoes     Movimentacao[]
+
+  @@map("produtos")
+}
+
+model Movimentacao {
+  id         Int             @id @default(autoincrement())
+  produtoId  Int             @map("produto_id")
+  tipo       TipoMovimentacao
+  quantidade Int
+  motivo     String?
+  usuarioId  Int?            @map("usuario_id")
+  createdAt  DateTime        @default(now()) @map("created_at")
+
+  produto Produto   @relation(fields: [produtoId], references: [id])
+  usuario Usuario?  @relation(fields: [usuarioId], references: [id])
+
+  @@map("movimentacoes")
+}
+
+model Log {
+  id               Int       @id @default(autoincrement())
+  acao             String
+  tabela           String
+  registroId       Int?      @map("registro_id")
+  dadosAnteriores  String?   @map("dados_anteriores")
+  dadosNovos       String?   @map("dados_novos")
+  usuarioId        Int?      @map("usuario_id")
+  createdAt        DateTime  @default(now()) @map("created_at")
+
+  usuario Usuario? @relation(fields: [usuarioId], references: [id])
+
+  @@map("logs")
+}
+
+enum Role {
+  funcionário
+  supervisor
+  gerente
+}
+
+enum TipoMovimentacao {
+  entrada
+  saida
+  ajuste
+}
