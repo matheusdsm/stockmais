@@ -26,7 +26,3 @@ Gerente: acesso total\
 Supervisor: produtos + usuários\
 Funcionário: movimentações\
 Visitante: visualização
-
-## Licença
-
-MIT License
