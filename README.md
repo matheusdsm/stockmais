@@ -1,6 +1,6 @@
 # StockMais
 
-Controle moderno de estoque
+Controle moderno de estoque.
 
 ![Dashboard](public/stockmais.matheusmariano.com.br_dashboard.png)
 
