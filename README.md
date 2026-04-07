@@ -2,6 +2,8 @@
 
 Controle moderno de estoque
 
+![Dashboard](public/stockmais.matheusmariano.com.br_dashboard.png)
+
 ## Tech Stack
 
 React + Vite
