@@ -206,7 +206,11 @@ export default function Funcionarios() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.criarUsuario(form, user.role);
+      const result = await api.criarUsuario(form, user.role);
+      if (result.error) {
+        alert(result.error);
+        return;
+      }
       closeModal();
       loadUsuarios();
     } catch (err) {
@@ -220,8 +224,17 @@ export default function Funcionarios() {
       return;
     }
     if (confirm('Tem certeza que deseja desativar este funcionário?')) {
-      await api.desativarUsuario(id, user.id, user.role);
-      loadUsuarios();
+      try {
+        const result = await api.desativarUsuario(id, user.id, user.role);
+        console.log('Desativar resultado:', result);
+        if (result.error) {
+          alert(result.error);
+        }
+        loadUsuarios();
+      } catch (err) {
+        console.error('Erro ao desativar:', err);
+        alert('Erro ao desativar usuário');
+      }
     }
   };
 
@@ -273,7 +286,7 @@ export default function Funcionarios() {
     <div>
       <PageHeader>
         <Title>Funcionários</Title>
-        {user?.role !== 'visitante' && <Button onClick={openModal}>+ Novo Funcionário</Button>}
+        {(user?.role === 'gerente' || user?.role === 'supervisor') && <Button onClick={openModal}>+ Novo Funcionário</Button>}
       </PageHeader>
 
       <Table>
@@ -344,8 +357,8 @@ export default function Funcionarios() {
                 <Label>Função *</Label>
                 <Select value={form.role} onChange={e => setForm({...form, role: e.target.value})}>
                   <option value="funcionário">Funcionário</option>
-                  <option value="supervisor">Supervisor</option>
-                  <option value="gerente">Gerente</option>
+                  {user?.role === 'gerente' && <option value="supervisor">Supervisor</option>}
+                  {user?.role === 'gerente' && <option value="gerente">Gerente</option>}
                 </Select>
               </FormGroup>
               <Button type="submit">Criar</Button>

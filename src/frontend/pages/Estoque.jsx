@@ -271,7 +271,7 @@ export default function Estoque() {
         <div style={{ display: 'flex', gap: theme.spacing.sm }}>
           {(user?.role === 'gerente' || user?.role === 'supervisor') && (
             <Button variant="subtle" onClick={() => setMostrarExcluidos(!mostrarExcluidos)}>
-              {mostrarExcluidos ? 'Ver Ativos' : `Ver Excluídos (${produtosExcluidos.length})`}
+              {mostrarExcluidos ? 'Ver Ativos' : `Ver Excluídos (${produtosExcluidos?.length || 0})`}
             </Button>
           )}
           {!mostrarExcluidos && user?.role !== 'visitante' && <Button onClick={() => openModal()}>+ Novo Produto</Button>}
@@ -353,9 +353,9 @@ export default function Estoque() {
               </tr>
             </thead>
             <tbody>
-              {produtosExcluidos.length === 0 ? (
+              {(produtosExcluidos?.length || 0) === 0 ? (
                 <tr><td colSpan="7" style={{ textAlign: 'center' }}>Nenhum produto excluido</td></tr>
-              ) : produtosExcluidos.map(p => (
+              ) : (produtosExcluidos || []).map(p => (
                 <tr key={p.id}>
                   <td><Badge>{p.sku}</Badge></td>
                   <td>{p.nome}</td>

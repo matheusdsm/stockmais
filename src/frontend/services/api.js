@@ -42,10 +42,10 @@ export const api = {
   },
 
   async desativarUsuario(id, usuarioId, userRole) {
-    const res = await fetch(`${API_URL}/usuarios/${id}`, {
+    const res = await fetch(`${API_URL}/usuarios?id=${id}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ usuario_id: usuarioId, role: userRole })
+      body: JSON.stringify({ usuario_id: usuarioId, usuario_role: userRole })
     });
     return res.json();
   },
@@ -66,7 +66,7 @@ export const api = {
     const res = await fetch(`${API_URL}/produtos`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, usuario_id: usuarioId, role: userRole })
+      body: JSON.stringify({ ...data, usuario_id: usuarioId, usuario_role: userRole })
     });
     if (!res.ok) {
       const err = await res.json();
@@ -76,48 +76,66 @@ export const api = {
   },
 
   async atualizarProduto(id, data, usuarioId, userRole) {
-    const res = await fetch(`${API_URL}/produtos/${id}`, {
+    const res = await fetch(`${API_URL}/produtos?id=${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, usuario_id: usuarioId, role: userRole })
+      body: JSON.stringify({ ...data, usuario_id: usuarioId, usuario_role: userRole })
     });
     return res.json();
   },
 
   async excluirProduto(id, usuarioId, userRole) {
-    const res = await fetch(`${API_URL}/produtos/${id}`, {
+    const res = await fetch(`${API_URL}/produtos?id=${id}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ usuario_id: usuarioId, role: userRole })
+      body: JSON.stringify({ usuario_id: usuarioId, usuario_role: userRole })
+    });
+    return res.json();
+  },
+
+  async atualizarProduto(id, data, usuarioId, userRole) {
+    const res = await fetch(`${API_URL}/produtos?id=${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, usuario_id: usuarioId, usuario_role: userRole })
+    });
+    return res.json();
+  },
+
+  async excluirProduto(id, usuarioId, userRole) {
+    const res = await fetch(`${API_URL}/produtos?id=${id}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ usuario_id: usuarioId, usuario_role: userRole })
     });
     return res.json();
   },
 
   async restaurarProduto(id, usuarioId, userRole) {
-    const res = await fetch(`${API_URL}/produtos/${id}/restore`, {
+    const res = await fetch(`${API_URL}/produtos?action=restore&id=${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ usuario_id: usuarioId, role: userRole })
+      body: JSON.stringify({ usuario_id: usuarioId, usuario_role: userRole })
     });
     return res.json();
   },
 
   async getProdutosExcluidos() {
-    const res = await fetch(`${API_URL}/produtos/excluidos`);
+    const res = await fetch(`${API_URL}/produtos?action=excluidos`);
     return res.json();
   },
 
   async reativarUsuario(id, usuarioId, userRole) {
-    const res = await fetch(`${API_URL}/usuarios/${id}/restore`, {
+    const res = await fetch(`${API_URL}/usuarios?action=restore&id=${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ usuario_id: usuarioId, role: userRole })
+      body: JSON.stringify({ usuario_id: usuarioId, usuario_role: userRole })
     });
     return res.json();
   },
 
   async getUsuariosInativos() {
-    const res = await fetch(`${API_URL}/usuarios/inativos`);
+    const res = await fetch(`${API_URL}/usuarios?action=inativos`);
     return res.json();
   },
 
@@ -125,7 +143,7 @@ export const api = {
     const res = await fetch(`${API_URL}/movimentacoes`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, role: userRole })
+      body: JSON.stringify({ ...data, usuario_role: userRole })
     });
     if (!res.ok) {
       const err = await res.json();
@@ -148,7 +166,7 @@ export const api = {
 
   async exportarLogs(filters = {}) {
     const params = new URLSearchParams(filters).toString();
-    const res = await fetch(`${API_URL}/logs/export?${params}`);
+    const res = await fetch(`${API_URL}/logs?action=export&${params}`);
     return res.blob();
   },
 

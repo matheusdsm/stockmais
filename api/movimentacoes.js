@@ -1,4 +1,4 @@
-import prisma from '../prisma.js'
+import prisma from './prisma.js'
 
 function gerarLog(prisma, acao, tabela, registroId, dadosAnteriores, dadosNovos, usuarioId) {
   return prisma.log.create({
