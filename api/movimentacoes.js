@@ -14,7 +14,7 @@ function gerarLog(prisma, acao, tabela, registroId, dadosAnteriores, dadosNovos,
 }
 
 export default async function handler(req, res) {
-  const { produto_id, tipo, quantidade, motivo, usuario_id, role: userRole } = req.body
+  const { produto_id, tipo, quantidade, motivo, usuario_id, role: userRole } = req.body || {}
   const { page = 1, limit = 10 } = req.query
   const skip = (parseInt(page) - 1) * parseInt(limit)
 
