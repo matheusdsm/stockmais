@@ -33,10 +33,10 @@ export const api = {
   },
 
   async atualizarUsuario(id, data, usuarioId, userRole) {
-    const res = await fetch(`${API_URL}/usuarios/${id}`, {
+    const res = await fetch(`${API_URL}/usuarios?id=${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, usuario_id: usuarioId, role: userRole, new_role: data.role })
+      body: JSON.stringify({ ...data, usuario_id: usuarioId, usuario_role: userRole, new_role: data.role })
     });
     return res.json();
   },
@@ -58,7 +58,7 @@ export const api = {
   },
 
   async getProduto(id) {
-    const res = await fetch(`${API_URL}/produtos/${id}`);
+    const res = await fetch(`${API_URL}/produtos?id=${id}`);
     return res.json();
   },
 
@@ -72,24 +72,6 @@ export const api = {
       const err = await res.json();
       throw new Error(err.error);
     }
-    return res.json();
-  },
-
-  async atualizarProduto(id, data, usuarioId, userRole) {
-    const res = await fetch(`${API_URL}/produtos?id=${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, usuario_id: usuarioId, usuario_role: userRole })
-    });
-    return res.json();
-  },
-
-  async excluirProduto(id, usuarioId, userRole) {
-    const res = await fetch(`${API_URL}/produtos?id=${id}`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ usuario_id: usuarioId, usuario_role: userRole })
-    });
     return res.json();
   },
 

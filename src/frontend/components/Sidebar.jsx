@@ -70,10 +70,8 @@ export default function Sidebar() {
     links.push({ to: '/funcionarios', label: 'Funcionários', icon: '👥' });
   }
   
-  // Todos usuários logados (exceto visitante) podem ver histórico
-  if (user?.role !== 'visitante') {
-    links.push({ to: '/historico', label: 'Histórico', icon: '📋' });
-  }
+  // Todos usuários podem ver histórico (incluindo visitante)
+  links.push({ to: '/historico', label: 'Histórico', icon: '📋' });
 
   return (
     <SidebarContainer>

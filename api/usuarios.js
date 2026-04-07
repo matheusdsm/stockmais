@@ -158,8 +158,16 @@ export default async function handler(req, res) {
 
   // PUT /usuarios/:id
   if (req.method === 'PUT' && id) {
-    if (userRole !== 'gerente') {
-      return res.status(403).json({ error: 'Apenas gerentes podem atualizar usuários' })
+    // Supervisor pode alterar apenas funcionários e outros supervisores
+    if (userRole === 'supervisor') {
+      const targetUser = await prisma.usuario.findUnique({ where: { id: parseInt(id) } })
+      if (targetUser?.role === 'gerente') {
+        return res.status(403).json({ error: 'Supervisores não podem alterar gerentes' })
+      }
+    }
+    // Funcionários não podem alterar ninguém
+    if (userRole !== 'gerente' && userRole !== 'supervisor') {
+      return res.status(403).json({ error: 'Apenas gerentes e supervisores podem atualizar usuários' })
     }
 
     try {

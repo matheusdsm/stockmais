@@ -1,17 +1,18 @@
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Usuario {
   id           Int        @id @default(autoincrement())
   username     String     @unique
   passwordHash String     @map("password_hash")
-  role         Role
+  role         Role?
   nomeCompleto String     @map("nome_completo")
   ativo        Boolean    @default(true)
   createdAt    DateTime   @default(now()) @map("created_at")
@@ -26,6 +27,12 @@ model Usuario {
   logs                  Log[]
 
   @@map("usuarios")
+}
+
+enum Role {
+  funcionário
+  supervisor
+  gerente
 }
 
 model Produto {
@@ -51,18 +58,24 @@ model Produto {
 }
 
 model Movimentacao {
-  id         Int             @id @default(autoincrement())
-  produtoId  Int             @map("produto_id")
-  tipo       TipoMovimentacao
+  id         Int              @id @default(autoincrement())
+  produtoId  Int              @map("produto_id")
+  tipo       TipoMovimentacao?
   quantidade Int
   motivo     String?
-  usuarioId  Int?            @map("usuario_id")
-  createdAt  DateTime        @default(now()) @map("created_at")
+  usuarioId  Int?             @map("usuario_id")
+  createdAt  DateTime         @default(now()) @map("created_at")
 
   produto Produto   @relation(fields: [produtoId], references: [id])
   usuario Usuario?  @relation(fields: [usuarioId], references: [id])
 
   @@map("movimentacoes")
+}
+
+enum TipoMovimentacao {
+  entrada
+  saida
+  ajuste
 }
 
 model Log {
@@ -78,16 +91,4 @@ model Log {
   usuario Usuario? @relation(fields: [usuarioId], references: [id])
 
   @@map("logs")
-}
-
-enum Role {
-  funcionário
-  supervisor
-  gerente
-}
-
-enum TipoMovimentacao {
-  entrada
-  saida
-  ajuste
 }
