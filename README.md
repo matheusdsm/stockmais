@@ -1,6 +1,6 @@
 # StockMais
 
-Controle moderno de estoque.
+Controle de estoque interno e logística.
 
 ![Dashboard](public/stockmais.matheusmariano.com.br_dashboard.png)
 
