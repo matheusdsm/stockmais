@@ -17,9 +17,9 @@ export default async function handler(req, res) {
         where: { deleted: false },
         _sum: { quantidade: true }
       }),
-      prisma.produto.aggregate({
+      prisma.produto.findMany({
         where: { deleted: false },
-        _sum: { precoUnitario: true }
+        select: { quantidade: true, precoUnitario: true }
       }),
       prisma.movimentacao.count({
         where: {
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
     return res.json({
       totalProdutos,
       totalEstoque: totalEstoque._sum.quantidade || 0,
-      valorTotal: (valorTotal._sum.precoUnitario || 0),
+      valorTotal: valorTotal.reduce((acc, p) => acc + (p.quantidade * p.precoUnitario), 0),
       movimentacoesHoje,
       ultimasMovimentacoes: ultimasMovimentacoes.map(m => ({
         id: m.id,
