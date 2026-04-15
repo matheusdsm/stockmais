@@ -8,9 +8,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   plugins: [react()],
   base: '/',
-  root: 'src/frontend',
+  root: path.resolve(__dirname, 'src/frontend'),  // caminho absoluto
   build: {
-    outDir: '../../dist',
+    outDir: path.resolve(__dirname, 'dist'),       // caminho absoluto
     emptyOutDir: true
   },
   server: {
