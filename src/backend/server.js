@@ -203,7 +203,13 @@ if (fs.existsSync(frontendDist)) {
   });
 }
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Servidor STOCKMAIS rodando na porta ${PORT}`);
-});
+// Manter o listen só para dev local:
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`Servidor STOCKMAIS rodando na porta ${PORT}`);
+  });
+}
+
+// No final do server.js, SUBSTITUIR o app.listen por:
+export default app;
