@@ -187,9 +187,18 @@ apiRouter.get('/dashboard', (req, res) => {
   res.json(data);
 });
 
+// AFTER all API routes - serve frontend for any non-API route
 if (fs.existsSync(frontendDist)) {
+  // First serve static files (JS, CSS, images)
   app.use(express.static(frontendDist));
+  
+  // Then handle SPA routes - serve index.html for ANY GET request that isn't an API call
   app.get('*', (req, res) => {
+    // Skip API routes only
+    if (req.path.startsWith('/api') || req.path.startsWith('/auth')) {
+      return res.status(404).json({ error: 'Rota não encontrada' });
+    }
+    // Serve index.html for all other routes (SPA)
     res.sendFile(path.join(frontendDist, 'index.html'));
   });
 }

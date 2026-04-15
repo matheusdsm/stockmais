@@ -5,14 +5,6 @@
   "installCommand": "npm install",
   "rewrites": [
     { "source": "/api/:path*", "destination": "/api/:path*" },
-    { "source": "/auth/:path*", "destination": "/api/auth/:path*" },
-    { "source": "/auth", "destination": "/api/auth/login" },
-    { "source": "/auth/login", "destination": "/api/auth/login" },
-    { "source": "/login", "destination": "/api/auth/login" },
-    { "source": "/dashboard", "destination": "/api/dashboard" },
-    { "source": "/produtos(.*)", "destination": "/api/produtos.js$1" },
-    { "source": "/usuarios(.*)", "destination": "/api/usuarios.js$1" },
-    { "source": "/movimentacoes(.*)", "destination": "/api/movimentacoes.js$1" },
-    { "source": "/logs(.*)", "destination": "/api/logs.js$1" }
+    { "source": "/auth/:path*", "destination": "/api/auth/:path*" }
   ]
 }
