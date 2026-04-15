@@ -7,12 +7,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   plugins: [react()],
-  root: 'src/frontend',
   base: '/',
+  root: 'src/frontend',
   build: {
     outDir: '../../dist',
-    emptyOutDir: true,
-    assetsDir: 'assets'
+    emptyOutDir: true
   },
   server: {
     port: 5173

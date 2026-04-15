@@ -3,8 +3,7 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "installCommand": "npm install",
-  "routes": [
-    { "handle": "filesystem" },
+  "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/auth/(.*)", "destination": "/api/auth/$1" }
   ]
